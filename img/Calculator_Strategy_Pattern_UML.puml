@@ -1,0 +1,54 @@
+
+@startuml
+title Calculator - Strategy Design Pattern
+
+skinparam classAttributeIconSize 0
+top to bottom direction
+
+interface OperationStrategy <<Strategy>> {
+    + execute(left: double, right: double): double
+}
+
+class AddStrategy <<ConcreteStrategy>> {
+    + execute(left: double, right: double): double
+}
+
+class SubtractStrategy <<ConcreteStrategy>> {
+    + execute(left: double, right: double): double
+}
+
+class MultiplyStrategy <<ConcreteStrategy>> {
+    + execute(left: double, right: double): double
+}
+
+class DivideStrategy <<ConcreteStrategy>> {
+    + execute(left: double, right: double): double
+}
+
+class Calculator <<Context>> {
+    - strategy: OperationStrategy
+    + Calculator(strategy: OperationStrategy)
+    + setStrategy(strategy: OperationStrategy): void
+    + calculate(left: double, right: double): double
+}
+
+class Main <<Client>> {
+    + {static} main(args: String[]): void
+    - {static} check(name: String, actual: double, expected: double): void
+    - {static} checkDivisionByZero(calculator: Calculator): void
+}
+
+OperationStrategy <|.. AddStrategy
+OperationStrategy <|.. SubtractStrategy
+OperationStrategy <|.. MultiplyStrategy
+OperationStrategy <|.. DivideStrategy
+
+Calculator o--> OperationStrategy : holds
+
+Main ..> Calculator : creates and uses
+Main ..> AddStrategy : creates
+Main ..> SubtractStrategy : creates
+Main ..> MultiplyStrategy : creates
+Main ..> DivideStrategy : creates
+
+@enduml
